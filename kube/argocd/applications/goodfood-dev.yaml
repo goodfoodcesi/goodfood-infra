@@ -7,9 +7,8 @@ spec:
   project: default
   
   source:
-    # ⚠️ REMPLACER par l'URL de ton repo GitHub
-    repoURL: https://github.com/goodfoodcesi/infrastructure
-    targetRevision: main  # Ou develop selon ta branche
+    repoURL: https://github.com/goodfoodcesi/goodfood-infra 
+    targetRevision: main
     path: kube/dev
   
   destination:
@@ -18,7 +17,7 @@ spec:
   
   syncPolicy:
     automated:
-      prune: true       # Supprime les ressources supprimées du Git
-      selfHeal: true    # Corrige les changements manuels
+      prune: true
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
