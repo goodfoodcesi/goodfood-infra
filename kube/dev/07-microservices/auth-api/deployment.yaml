@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-api
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-api
+  template:
+    metadata:
+      labels:
+        app: auth-api
+    spec:
+      # imagePullSecrets:
+      #   - name: scw-registry-secret
+      containers:
+        - name: auth-api
+          image: rg.fr-par.scw.cloud/goodfood/auth-api:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RABBITMQ_URL
+              value: amqp://guest:guest@rabbitmq:5672/
+          envFrom:
+            - configMapRef:
+                name: db-secret-credentials
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "1000m"
+            limits:
+              memory: "128Mi"
+              cpu: "2000m"

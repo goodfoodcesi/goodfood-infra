@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: goodfood-dev
+  namespace: argocd
+spec:
+  project: default
+  
+  source:
+    # ⚠️ REMPLACER par l'URL de ton repo GitHub
+    repoURL: https://github.com/goodfoodcesi/infrastructure
+    targetRevision: main  # Ou develop selon ta branche
+    path: kube/dev
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  
+  syncPolicy:
+    automated:
+      prune: true       # Supprime les ressources supprimées du Git
+      selfHeal: true    # Corrige les changements manuels
+    syncOptions:
+    - CreateNamespace=true

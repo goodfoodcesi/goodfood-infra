@@ -1,14 +1,14 @@
-/remote-k3s-config-for-local
-**/.env
+# .gitignore (racine du repo)
 
+# Ansible
+**/.env
+.env
+**/*/env
 
 # Kubernetes secrets (ne JAMAIS commiter)
 **/*-secret.yaml
 **/db-credentials-configmap.yaml
 **/*-credentials.yaml
-**/secrets/*.yaml
-!**/secrets/*.yaml.example
-!**/secrets/.gitkeep
 
 # Terraform
 **/*.tfstate

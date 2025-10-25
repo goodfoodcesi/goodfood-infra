@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: back-office-ingress
+  namespace: preprod
+
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: dev.goodfood.test
+      http:
+        paths:
+          - path: /bo
+            pathType: Prefix
+            backend:
+              service:
+                name: back-office
+                port:
+                  number: 80
