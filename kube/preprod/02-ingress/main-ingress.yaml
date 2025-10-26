@@ -9,6 +9,7 @@ spec:
     - host: preprod.goodfood.test
       http:
         paths:
+          # Back-Office (accès direct)
           - path: /bo
             pathType: Prefix
             backend:
@@ -17,10 +18,9 @@ spec:
                 port:
                   number: 80
           
-    - host: api-preprod.goodfood.test
-      http:
-        paths:
-          - path: /
+    
+          # API Gateway (Tyk)
+          - path: /api
             pathType: Prefix
             backend:
               service:
