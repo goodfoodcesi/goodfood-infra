@@ -1,4 +1,4 @@
-# kube/argocd/applications/goodfood-dev.yaml
+# kube/argocd/applications/goodfood-preprod.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -8,12 +8,12 @@ spec:
   project: default
   
   source:
-    repoURL: https://github.com/goodfoodcesi/goodfood-infra 
+    repoURL: https://github.com/goodfoodcesi/goodfood-infra
     targetRevision: main
     path: kube/preprod
   
   destination:
-    server: https://kubernetes.default.svc
+    server: https://kubernetes.default.svc 
     namespace: preprod
   
   syncPolicy:

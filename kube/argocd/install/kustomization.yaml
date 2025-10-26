@@ -5,6 +5,7 @@ namespace: argocd
 
 resources:
   - namespace.yaml
-  # Installer ArgoCD depuis les manifests officiels
   - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
   - ingress.yaml
+  # - argocd-cmd-params-cm.yaml
+
