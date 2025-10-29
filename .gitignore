@@ -6,6 +6,7 @@
 **/*/env
 
 # Kubernetes secrets (ne JAMAIS commiter)
+**/*-secrets/
 **/*-secret.yaml
 **/db-credentials-configmap.yaml
 **/*-credentials.yaml

@@ -18,9 +18,25 @@ data:
         "port": 6379,
         "database": 0
       },
-      "enable_analytics": false,
+      "enable_analytics": true,
       "health_check": {
         "enable_health_checks": true,
         "health_check_value_timeouts": 60
       }
+      "statsd_connection_string": "",
+      "statsd_prefix": "tyk",
+      "enable_detailed_recording": true,
+      "http_server_options": {
+        "enable_websockets": true,
+        "use_ssl": false,
+        "server_name": "*",
+        "min_version": 771,
+        "flush_interval": 0
+      },
+      
+      "enable_bundle_downloader": false,
+      
+      # Activer Prometheus (IMPORTANT!)
+      "enable_prometheus_metrics": true,           
+      "prometheus_metrics_path": "/metrics" 
     }

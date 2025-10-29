@@ -4,7 +4,7 @@ metadata:
   name: traefik
   namespace: preprod
 spec:
-  type: LoadBalancer 
+  type: NodePort 
   selector:
     app: traefik
   ports:

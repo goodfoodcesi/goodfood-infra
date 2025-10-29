@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: promtail-config
+  namespace: monitoring
+data:
+  promtail.yaml: |
+    server:
+      http_listen_port: 9080
+      grpc_listen_port: 0
+
+    positions:
+      filename: /tmp/positions.yaml
+
+    clients:
+      - url: http://loki:3100/loki/api/v1/push
+
+    scrape_configs:
+    # Scrape des logs de tous les pods
+    - job_name: kubernetes-pods
+      kubernetes_sd_configs:
+      - role: pod
+      
+      pipeline_stages:
+      # Parse les logs JSON si présents
+      - docker: {}
+      
+      relabel_configs:
+      # Ajoute le namespace comme label
+      - source_labels:
+        - __meta_kubernetes_pod_node_name
+        target_label: node_name
+      - source_labels:
+        - __meta_kubernetes_namespace
+        target_label: namespace
+      - source_labels:
+        - __meta_kubernetes_pod_name
+        target_label: pod
+      - source_labels:
+        - __meta_kubernetes_pod_container_name
+        target_label: container
+      
+      # Récupère les labels custom des pods
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      
+      # Récupère le nom de l'app depuis le label app
+      - source_labels:
+        - __meta_kubernetes_pod_label_app
+        target_label: app
+      
+      # Exclut les pods système si besoin
+      - action: drop
+        regex: kube-system
+        source_labels:
+        - namespace

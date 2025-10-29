@@ -6,7 +6,7 @@ ifneq (,$(wildcard .env))
     export
 endif
 
-.PHONY: help setup-all setup-infra update-inventory accept-ssh setup-k3s setup-argocd deploy-secrets deploy-apps fetch-kubeconfig destroy preprod
+.PHONY: help setup-all setup-infra update-inventory accept-ssh setup-k3s setup-argocd deploy-secrets deploy-apps fetch-kubeconfig destroy preprod setup-metalb deploy-monitoring
 
 help: ## Affiche l'aide
 	@echo ""
@@ -21,15 +21,17 @@ help: ## Affiche l'aide
 	@echo "    make accept-ssh          - Phase 2b: Accepter les fingerprints SSH"
 	@echo "    make setup-k3s           - Phase 3: Installer K3s + rsync"
 	@echo "    make setup-argocd        - Phase 4: Installer ArgoCD"
-	@echo "    make deploy-secrets      - Phase 5: Déployer les secrets"
-	@echo "    make deploy-apps         - Phase 6: Déployer l'application preprod"
+	@echo "    make setup-metalb        - Phase 5: Installer MetalB"
+	@echo "    make deploy-secrets      - Phase 6: Déployer les secrets"
+	@echo "    make deploy-apps         - Phase 7: Déployer l'application preprod"
+	@echo "    make deploy-monitoring   - Phase 8: Déployer grafana"
 	@echo "    make fetch-kubeconfig    - (Optionnel) Récupérer le kubeconfig pour K9s"
 	@echo ""
 	@echo "  🗑️  Nettoyage:"
 	@echo "    make destroy             - Détruire l'infrastructure Terraform"
 	@echo ""
 
-setup-all: setup-infra update-inventory accept-ssh setup-k3s setup-argocd deploy-secrets deploy-apps ## Setup complet automatique
+setup-all: setup-infra update-inventory accept-ssh setup-k3s setup-argocd deploy-secrets deploy-apps deploy-monitoring ## Setup complet automatique
 	@echo ""
 	@echo "✅ Setup preprod terminé !"
 	@echo ""
@@ -74,15 +76,20 @@ setup-argocd: ## Installer ArgoCD
 	cd ansible/k3s-ansible && \
 	ansible-playbook playbooks/install-argocd.yml -i inventory.yml
 	@echo ""
-	@echo "🔑 ArgoCD admin password:"
-	@kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-	@echo ""
 	@echo "✅ ArgoCD installé"
+
+setup-metalb: ## Installer MetalLB (LoadBalancer pour K3s)
+	@echo "🔄 Installation de MetalLB..."
+	cd ansible/k3s-ansible && \
+	ansible-playbook playbooks/install-metallb.yml -i inventory.yml
+	@echo ""
+	@echo "✅ MetalLB installé avec succès"
 
 deploy-secrets: ## Déployer les secrets
 	@echo "🔐 Déploiement des secrets..."
 	cd ansible/k3s-ansible && \
 	ansible-playbook playbooks/create-secrets-preprod.yml -i inventory.yml
+	ansible-playbook playbooks/create-secrets-monitoring.yml -i inventory.yml
 	@echo "✅ Secrets déployés"
 
 deploy-apps: ## Déployer l'application preprod
@@ -90,6 +97,12 @@ deploy-apps: ## Déployer l'application preprod
 	cd ansible/k3s-ansible && \
 	ansible-playbook playbooks/deploy-argocd-app.yml -i inventory.yml
 	@echo "✅ Application déployée"
+
+deploy-monitoring: ## Déployer l'application preprod
+	@echo "🚀 Déploiement de Grafana..."
+	cd ansible/k3s-ansible && \
+	ansible-playbook playbooks/deploy-monitoring.yml -i inventory.yml
+	@echo "✅ Grafana déployée"
 
 fetch-kubeconfig: ## Récupérer le kubeconfig pour K9s
 	@echo "📥 Récupération du kubeconfig..."

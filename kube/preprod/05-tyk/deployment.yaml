@@ -13,12 +13,17 @@ spec:
     metadata:
       labels:
         app: tyk-gateway
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
       - name: tyk-gateway
         image: tykio/tyk-gateway:v5.2
         ports:
         - containerPort: 8080
+          name: http
         volumeMounts:
         - name: tyk-config
           mountPath: /opt/tyk-gateway/tyk.conf
