@@ -36,7 +36,6 @@ data:
       
       "enable_bundle_downloader": false,
       
-      # Activer Prometheus (IMPORTANT!)
       "enable_prometheus_metrics": true,           
       "prometheus_metrics_path": "/metrics" 
     }
