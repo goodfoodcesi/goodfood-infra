@@ -1,4 +1,3 @@
-# 05-tyk/configmap-gateway.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -33,9 +32,8 @@ data:
         "min_version": 771,
         "flush_interval": 0
       },
-      
       "enable_bundle_downloader": false,
-      
-      "enable_prometheus_metrics": true,           
-      "prometheus_metrics_path": "/metrics" 
+      "instrumentation": {
+        "enabled": true
+      }
     }
