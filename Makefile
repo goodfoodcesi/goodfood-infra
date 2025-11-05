@@ -89,7 +89,6 @@ deploy-secrets: ## Déployer les secrets
 	@echo "🔐 Déploiement des secrets..."
 	cd ansible/k3s-ansible && \
 	ansible-playbook playbooks/create-secrets-preprod.yml -i inventory.yml
-	ansible-playbook playbooks/create-secrets-monitoring.yml -i inventory.yml
 	@echo "✅ Secrets déployés"
 
 deploy-apps: ## Déployer l'application preprod

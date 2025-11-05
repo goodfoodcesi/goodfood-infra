@@ -1,0 +1,64 @@
+# Prometheus configuration file
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'proxmox-monitoring'
+    environment: 'production'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - "/etc/prometheus/rules/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:{{ prometheus_port }}']
+
+  # Node Exporter for system metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['localhost:9100']
+    
+  # Kubernetes nodes (will be configured later)
+  - job_name: 'kubernetes-nodes'
+    kubernetes_sd_configs:
+      - role: node
+        # api_server: https://kubernetes-api:6443
+        # tls_config:
+        #   ca_file: /etc/prometheus/k8s-ca.crt
+        # bearer_token_file: /etc/prometheus/k8s-token
+    # For now, using static config (replace with your k8s nodes)
+    static_configs: []
+      # - targets:
+      #   - 'k8s-node-1:9100'
+      #   - 'k8s-node-2:9100'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+
+  # Kubernetes pods
+  - job_name: 'kubernetes-pods'
+    static_configs: []
+    # Will be configured with service discovery
+    
+  # Kubernetes services
+  - job_name: 'kubernetes-services'
+    static_configs: []
+    # Will be configured with service discovery
+
+  # File-based service discovery for dynamic targets
+  - job_name: 'file-sd'
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/file_sd/*.yml
+        refresh_interval: 30s

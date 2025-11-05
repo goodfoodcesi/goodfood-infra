@@ -1,0 +1,18 @@
+# Example file_sd configuration for Kubernetes nodes
+# Copy this to /etc/prometheus/file_sd/kubernetes.yml on the monitoring VM
+
+# Example: Static configuration for K8s nodes
+- targets:
+    - '192.168.1.101:9100'  # k8s-node-1
+    - '192.168.1.102:9100'  # k8s-node-2
+    - '192.168.1.103:9100'  # k8s-node-3
+  labels:
+    job: 'kubernetes-nodes'
+    cluster: 'proxmox-k8s'
+    
+# Example: kube-state-metrics
+- targets:
+    - '192.168.1.101:8080'
+  labels:
+    job: 'kube-state-metrics'
+    cluster: 'proxmox-k8s'

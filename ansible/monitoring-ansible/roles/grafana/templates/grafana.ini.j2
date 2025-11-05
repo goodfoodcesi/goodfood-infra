@@ -1,0 +1,61 @@
+[paths]
+data = /var/lib/grafana
+logs = /var/log/grafana
+plugins = /var/lib/grafana/plugins
+provisioning = /etc/grafana/provisioning
+
+[server]
+protocol = http
+http_addr = 0.0.0.0
+http_port = {{ grafana_port }}
+domain = {{ grafana_domain }}
+root_url = http://{{ grafana_domain }}:{{ grafana_port }}/
+
+[database]
+type = sqlite3
+path = grafana.db
+
+[session]
+provider = file
+
+[security]
+admin_user = {{ grafana_admin_user }}
+admin_password = {{ grafana_admin_password }}
+
+[users]
+allow_sign_up = false
+allow_org_create = false
+auto_assign_org = true
+auto_assign_org_role = Viewer
+
+[auth.anonymous]
+enabled = false
+
+[analytics]
+reporting_enabled = false
+check_for_updates = true
+
+[log]
+mode = console file
+level = info
+
+[log.console]
+level = info
+format = console
+
+[log.file]
+level = info
+format = text
+
+[alerting]
+enabled = true
+
+[metrics]
+enabled = true
+interval_seconds = 10
+
+[grafana_net]
+url = https://grafana.net
+
+[unified_alerting]
+enabled = true

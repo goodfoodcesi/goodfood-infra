@@ -1,0 +1,27 @@
+---
+# Grafana Configuration
+grafana_version: "10.4.1"
+grafana_admin_user: "admin"
+grafana_admin_password: "ChangeMe123!"  # Change this!
+grafana_port: 3000
+grafana_domain: "monitoring.local"
+
+# Prometheus Configuration
+prometheus_version: "2.51.0"
+prometheus_port: 9090
+prometheus_retention_time: "15d"
+prometheus_storage_path: "/var/lib/prometheus"
+
+# Loki Configuration
+loki_version: "2.9.6"
+loki_port: 3100
+loki_retention_period: "168h"  # 7 days
+loki_storage_path: "/var/lib/loki"
+
+# System users
+monitoring_user: "monitoring"
+monitoring_group: "monitoring"
+
+# Network configuration
+allowed_networks:
+  - "0.0.0.0/0"  # Change to your network range for security

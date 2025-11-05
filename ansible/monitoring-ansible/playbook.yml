@@ -1,0 +1,43 @@
+---
+- name: Deploy Monitoring Stack (Grafana + Prometheus + Loki)
+  hosts: monitoring
+  become: yes
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required system packages
+      apt:
+        name:
+          - curl
+          - wget
+          - apt-transport-https
+          - software-properties-common
+          - gnupg2
+        state: present
+
+  roles:
+    - prometheus
+    - loki
+    - grafana
+
+  post_tasks:
+    - name: Display access information
+      debug:
+        msg:
+          - "======================================"
+          - "Monitoring Stack deployed successfully!"
+          - "======================================"
+          - "Grafana: http://{{ ansible_host }}:3000"
+          - "  User: admin"
+          - "  Password: {{ grafana_admin_password }}"
+          - ""
+          - "Prometheus: http://{{ ansible_host }}:9090"
+          - ""
+          - "Loki: http://{{ ansible_host }}:3100"
+          - "======================================"

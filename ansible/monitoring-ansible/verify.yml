@@ -1,0 +1,92 @@
+---
+- name: Verify Monitoring Stack Installation
+  hosts: monitoring
+  become: yes
+  
+  tasks:
+    - name: Check if services are running
+      systemd:
+        name: "{{ item }}"
+      register: service_status
+      loop:
+        - prometheus
+        - loki
+        - grafana-server
+      
+    - name: Display service status
+      debug:
+        msg: "{{ item.name }}: {{ item.state }} ({{ 'Active' if item.state == 'active' else 'Inactive' }})"
+      loop: "{{ service_status.results }}"
+      
+    - name: Check if ports are listening
+      wait_for:
+        port: "{{ item.port }}"
+        timeout: 5
+      register: port_check
+      failed_when: false
+      loop:
+        - { service: 'Grafana', port: 3000 }
+        - { service: 'Prometheus', port: 9090 }
+        - { service: 'Loki', port: 3100 }
+        
+    - name: Display port status
+      debug:
+        msg: "{{ item.item.service }} on port {{ item.item.port }}: {{ 'OK' if item.failed == false else 'FAILED' }}"
+      loop: "{{ port_check.results }}"
+      
+    - name: Test Prometheus API
+      uri:
+        url: "http://localhost:9090/-/healthy"
+        method: GET
+      register: prometheus_health
+      failed_when: false
+      
+    - name: Display Prometheus health
+      debug:
+        msg: "Prometheus Health: {{ 'OK' if prometheus_health.status == 200 else 'FAILED' }}"
+        
+    - name: Test Loki API
+      uri:
+        url: "http://localhost:3100/ready"
+        method: GET
+      register: loki_health
+      failed_when: false
+      
+    - name: Display Loki health
+      debug:
+        msg: "Loki Health: {{ 'OK' if loki_health.status == 200 else 'FAILED' }}"
+        
+    - name: Test Grafana API
+      uri:
+        url: "http://localhost:3000/api/health"
+        method: GET
+      register: grafana_health
+      failed_when: false
+      
+    - name: Display Grafana health
+      debug:
+        msg: "Grafana Health: {{ 'OK' if grafana_health.status == 200 else 'FAILED' }}"
+        
+    - name: Check Prometheus targets
+      uri:
+        url: "http://localhost:9090/api/v1/targets"
+        method: GET
+      register: prometheus_targets
+      failed_when: false
+      
+    - name: Display Prometheus targets count
+      debug:
+        msg: "Prometheus has {{ prometheus_targets.json.data.activeTargets | length }} active targets"
+      when: prometheus_targets.status == 200
+      
+    - name: Summary
+      debug:
+        msg:
+          - "========================================"
+          - "    Installation Verification Summary"
+          - "========================================"
+          - "Access URLs:"
+          - "  Grafana:    http://{{ ansible_host }}:3000"
+          - "  Prometheus: http://{{ ansible_host }}:9090"
+          - "  Loki:       http://{{ ansible_host }}:3100"
+          - "========================================"

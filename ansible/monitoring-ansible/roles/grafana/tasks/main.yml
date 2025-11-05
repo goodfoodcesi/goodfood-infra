@@ -1,0 +1,90 @@
+---
+- name: Install Grafana dependencies
+  apt:
+    name:
+      - adduser
+      - libfontconfig1
+      - musl
+    state: present
+
+- name: Add Grafana GPG key
+  apt_key:
+    url: https://apt.grafana.com/gpg.key
+    state: present
+
+- name: Add Grafana repository
+  apt_repository:
+    repo: deb https://apt.grafana.com stable main
+    state: present
+    filename: grafana
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Grafana
+  apt:
+    name: grafana={{ grafana_version }}
+    state: present
+
+- name: Create Grafana configuration
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: '0640'
+  notify: restart grafana
+
+- name: Create Grafana provisioning directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: grafana
+    group: grafana
+    mode: '0755'
+  loop:
+    - /etc/grafana/provisioning
+    - /etc/grafana/provisioning/datasources
+    - /etc/grafana/provisioning/dashboards
+    - /etc/grafana/provisioning/notifiers
+    - /var/lib/grafana/dashboards
+
+- name: Configure Prometheus datasource
+  template:
+    src: datasource-prometheus.yml.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yml
+    owner: grafana
+    group: grafana
+    mode: '0644'
+  notify: restart grafana
+
+- name: Configure Loki datasource
+  template:
+    src: datasource-loki.yml.j2
+    dest: /etc/grafana/provisioning/datasources/loki.yml
+    owner: grafana
+    group: grafana
+    mode: '0644'
+  notify: restart grafana
+
+- name: Configure dashboard provider
+  template:
+    src: dashboard-provider.yml.j2
+    dest: /etc/grafana/provisioning/dashboards/default.yml
+    owner: grafana
+    group: grafana
+    mode: '0644'
+  notify: restart grafana
+
+- name: Enable and start Grafana service
+  systemd:
+    name: grafana-server
+    enabled: yes
+    state: started
+
+- name: Wait for Grafana to start
+  wait_for:
+    port: "{{ grafana_port }}"
+    delay: 5
+    timeout: 30

@@ -1,0 +1,70 @@
+---
+- name: Create Loki directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_group }}"
+    mode: '0755'
+  loop:
+    - "{{ loki_storage_path }}"
+    - "{{ loki_storage_path }}/chunks"
+    - "{{ loki_storage_path }}/index"
+    - /etc/loki
+
+- name: Download Loki
+  get_url:
+    url: "https://github.com/grafana/loki/releases/download/v{{ loki_version }}/loki-linux-amd64.zip"
+    dest: /tmp/loki.zip
+    mode: '0644'
+
+- name: Install unzip
+  apt:
+    name: unzip
+    state: present
+
+- name: Extract Loki
+  unarchive:
+    src: /tmp/loki.zip
+    dest: /tmp/
+    remote_src: yes
+
+- name: Copy Loki binary
+  copy:
+    src: /tmp/loki-linux-amd64
+    dest: /usr/local/bin/loki
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_group }}"
+    mode: '0755'
+    remote_src: yes
+
+- name: Create Loki configuration
+  template:
+    src: loki-config.yml.j2
+    dest: /etc/loki/config.yml
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_group }}"
+    mode: '0644'
+  notify: restart loki
+
+- name: Create Loki systemd service
+  template:
+    src: loki.service.j2
+    dest: /etc/systemd/system/loki.service
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart loki
+
+- name: Enable and start Loki service
+  systemd:
+    name: loki
+    enabled: yes
+    state: started
+    daemon_reload: yes
+
+- name: Wait for Loki to start
+  wait_for:
+    port: "{{ loki_port }}"
+    delay: 5
+    timeout: 30

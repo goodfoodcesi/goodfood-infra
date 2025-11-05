@@ -1,0 +1,62 @@
+auth_enabled: false
+
+server:
+  http_listen_port: {{ loki_port }}
+  grpc_listen_port: 9096
+
+common:
+  path_prefix: {{ loki_storage_path }}
+  storage:
+    filesystem:
+      chunks_directory: {{ loki_storage_path }}/chunks
+      rules_directory: {{ loki_storage_path }}/rules
+  replication_factor: 1
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: inmemory
+
+query_range:
+  results_cache:
+    cache:
+      embedded_cache:
+        enabled: true
+        max_size_mb: 100
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+ruler:
+  alertmanager_url: http://localhost:9093
+
+# Retention configuration
+limits_config:
+  retention_period: {{ loki_retention_period }}
+  max_query_length: 721h  # 30 days
+  max_query_lookback: 0h
+  max_streams_per_user: 0
+  max_global_streams_per_user: 0
+  ingestion_rate_mb: 10
+  ingestion_burst_size_mb: 20
+
+chunk_store_config:
+  max_look_back_period: {{ loki_retention_period }}
+
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: {{ loki_retention_period }}
+
+compactor:
+  working_directory: {{ loki_storage_path }}/compactor
+  shared_store: filesystem
+  compaction_interval: 10m
+  retention_enabled: true
+  retention_delete_delay: 2h
+  retention_delete_worker_count: 150
