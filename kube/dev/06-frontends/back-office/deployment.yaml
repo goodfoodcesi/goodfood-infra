@@ -20,7 +20,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: back-office
-          image: ghcr.io/goodfoodcesi/back-office:latest
+          image: ghcr.io/goodfoodcesi/back-office:v0.3.4
           ports:
             - containerPort: 3000
           resources:

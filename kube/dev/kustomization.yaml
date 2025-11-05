@@ -14,8 +14,8 @@ resources:
   - 02-ingress/main-ingress.yaml
   
   # Secrets & ConfigMaps
-  # - 03-secrets/db-credentials-configmap.yaml
-  # - 03-secrets/github-registry-secret.yaml  
+  - 03-secrets/db-credentials-configmap.yaml
+  - 03-secrets/github-registry-secret.yaml  
   
   # Redis
   - 04-redis/deployment.yaml
