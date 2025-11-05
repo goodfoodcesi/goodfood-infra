@@ -29,14 +29,9 @@ data:
           }
         }
       },
-      "uptime_pump_config": {
-        "collection_name": "tyk_uptime_analytics",
-        "mongo_url": "",
-        "max_insert_batch_size_bytes": 10000000,
-        "max_document_size_bytes": 10000000
-      },
-      "dont_purge_uptime_data": false
+      "dont_purge_uptime_data": true
     }
+
 ---
 apiVersion: apps/v1
 kind: Deployment
