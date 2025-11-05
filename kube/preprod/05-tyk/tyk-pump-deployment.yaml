@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tyk-pump-config
+  namespace: preprod
+data:
+  pump.conf: |
+    {
+      "analytics_storage_type": "redis",
+      "analytics_storage_config": {
+        "type": "redis",
+        "host": "redis",
+        "port": 6379,
+        "hosts": null,
+        "username": "",
+        "password": "",
+        "database": 0,
+        "optimisation_max_idle": 100,
+        "optimisation_max_active": 0,
+        "enable_cluster": false
+      },
+      "purge_delay": 2,
+      "pumps": {
+        "prometheus": {
+          "type": "prometheus",
+          "meta": {
+            "listen_address": ":9090",
+            "path": "/metrics"
+          }
+        }
+      },
+      "uptime_pump_config": {
+        "collection_name": "tyk_uptime_analytics",
+        "mongo_url": "",
+        "max_insert_batch_size_bytes": 10000000,
+        "max_document_size_bytes": 10000000
+      },
+      "dont_purge_uptime_data": false
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tyk-pump
+  namespace: preprod
+  labels:
+    app: tyk-pump
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tyk-pump
+  template:
+    metadata:
+      labels:
+        app: tyk-pump
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: tyk-pump
+        image: tykio/tyk-pump-docker-pub:v1.9
+        ports:
+        - containerPort: 9090
+          name: metrics
+        volumeMounts:
+        - name: tyk-pump-config
+          mountPath: /opt/tyk-pump/pump.conf
+          subPath: pump.conf
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: tyk-pump-config
+        configMap:
+          name: tyk-pump-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tyk-pump
+  namespace: preprod
+  labels:
+    app: tyk-pump
+spec:
+  type: ClusterIP
+  selector:
+    app: tyk-pump
+  ports:
+  - port: 9090
+    targetPort: 9090
+    name: metrics
