@@ -84,10 +84,11 @@ metadata:
   labels:
     app: tyk-pump
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: tyk-pump
   ports:
   - port: 9090
     targetPort: 9090
+    nodePort: 30090
     name: metrics
