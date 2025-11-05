@@ -26,7 +26,7 @@ resources:
   - 05-tyk/configmap-api-auth.yaml
   - 05-tyk/deployment.yaml
   - 05-tyk/service.yaml
-  - 05-tyk/tyk-pump-deployment.yaml
+  # - 05-tyk/tyk-pump-deployment.yaml
   
   # Frontends
   - 06-frontends/back-office/deployment.yaml
