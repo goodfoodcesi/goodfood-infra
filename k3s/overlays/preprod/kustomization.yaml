@@ -15,25 +15,25 @@ resources:
 - ./secrets
 - ../../base/ingresses
 - ../../base/tyk
-- ../../base/rabbitmq
-- ../../base/auth-api
-- ../../base/shop-api
+# - ../../base/rabbitmq
+# - ../../base/auth-api
+# - ../../base/shop-api
 - ../../base/back-office
 
 
 images:
-- name: rg.fr-par.scw.cloud/registry-goodfood/auth-api
-  newTag: latest
+# - name: rg.fr-par.scw.cloud/registry-goodfood/auth-api
+#   newTag: latest
 - name: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newTag: sha-39f8c5d
 
     
 patches:
-- path: auth-api/patch-deployment.yaml
-  target:
-    kind: Deployment
-    name: auth-api
+# - path: auth-api/patch-deployment.yaml
+#   target:
+#     kind: Deployment
+#     name: auth-api
 - path: back-office/patch-deployment.yaml
   target:
     kind: Deployment
