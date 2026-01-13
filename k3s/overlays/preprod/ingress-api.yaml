@@ -1,0 +1,24 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: api
+#   namespace: production
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     cert-manager.io/cluster-issuer: letsencrypt-http
+# spec:
+#   tls:
+#     - hosts:
+#         - api.collector-shop.shop
+#       secretName: api-collector-shop-tls
+#   rules:
+#     - host: api.collector-shop.shop
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: tyk-gateway
+#                 port:
+#                   number: 80

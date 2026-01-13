@@ -1,0 +1,28 @@
+minio_user: "{{ vault_minio_root_user }}"
+minio_password: "{{ vault_minio_root_password }}"
+
+minio_config:
+
+  dev:
+    minio_port: 9000
+    minio_console: 9001
+    minio_data: /data/minio-dev
+    minio_user: "{{ vault_minio_dev_user }}"
+    minio_password: "{{ vault_minio_dev_password }}"
+    buckets:
+      - avatars
+      - user-documents
+      - shops
+      - shop-documents
+
+  preprod:
+    minio_port: 9100
+    minio_console: 9101
+    minio_data: /data/minio-preprod
+    minio_user: "{{ vault_minio_preprod_user }}"
+    minio_password: "{{ vault_minio_preprod_password }}"
+    buckets:
+      - avatars
+      - user-documents
+      - shops
+      - shop-documents

@@ -1,0 +1,30 @@
+---
+- name: Setup PostgreSQL Databases
+  hosts: postgresql_servers
+  become: true
+  
+  roles:
+    - postgresql
+  
+  post_tasks:
+    - name: Display database info
+      debug:
+        msg: |
+          PostgreSQL installé sur {{ inventory_hostname }}
+          Databases créées: {{ databases | map(attribute='name') | join(', ') }}
+          Accès depuis: {{ postgresql_allowed_networks | join(', ') }}
+
+- name: Setup PostgreSQL Databases (DEV)
+  hosts: postgresql_dev
+  become: true
+  
+  roles:
+    - postgresql
+  
+  post_tasks:
+    - name: Display database info
+      debug:
+        msg: |
+          PostgreSQL installé sur {{ inventory_hostname }}
+          Databases créées: {{ databases | map(attribute='name') | join(', ') }}
+          Accès depuis: {{ postgresql_allowed_networks | join(', ') }}

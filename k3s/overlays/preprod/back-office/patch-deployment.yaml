@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-office
+spec:
+  template:
+    spec:
+      containers:
+      - name: back-office
+        env:
+
+        # DATABASE
+        - name: NEXT_PUBLIC_AUTH_BASE_URL
+          value: "http://localhost:3000/auth"

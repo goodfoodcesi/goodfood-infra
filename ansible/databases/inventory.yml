@@ -1,0 +1,112 @@
+---
+all:
+  children:
+    postgresql_servers:
+      hosts:
+        vm-db-1:
+          ansible_host: 192.168.1.93
+          ansible_user: debian
+          databases:
+            - name: db_auth
+              owner: auth_user
+            - name: db_customer
+              owner: customer_user
+          
+        vm-db-2:
+          ansible_host: 192.168.1.119
+          ansible_user: debian
+          databases:
+            - name: db_shop
+              owner: shop_user
+            - name: db_delivery
+              owner: delivery_user
+      
+      vars:
+        database_passwords: "{{ vault_database_passwords }}"
+        ansible_port: 22
+        ansible_user: debian
+        ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
+        ansible_become: true
+        ansible_python_interpreter: /usr/bin/python3
+        postgresql_version: 16
+        postgresql_listen_addresses: "*"
+        # Réseau autorisé pour connexions K8s (ajuste selon ton réseau)
+        postgresql_allowed_networks:
+          - 192.168.1.0/24
+      
+    postgresql_dev:
+      hosts:
+        vm-db-1-dev:
+          ansible_host: 192.168.1.93
+          ansible_user: debian
+          databases:
+            - name: db_auth_dev
+              owner: auth_user_dev
+            - name: db_customer_dev
+              owner: customer_user_dev
+        
+        vm-db-2-dev:
+          ansible_host: 192.168.1.119
+          ansible_user: debian
+          databases:
+            - name: db_shop_dev
+              owner: shop_user_dev
+            - name: db_delivery_dev
+              owner: delivery_user_dev
+        
+      vars:
+        
+        ansible_port: 22
+        ansible_user: debian
+        ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
+        ansible_become: true
+        ansible_python_interpreter: /usr/bin/python3
+        postgresql_version: 16
+        postgresql_listen_addresses: "*"
+        database_passwords: "{{ vault_database_passwords_dev }}"
+        # Réseau autorisé pour connexions K8s (ajuste selon ton réseau)
+        postgresql_allowed_networks:
+          - 192.168.1.0/24
+
+    scylladb_servers:
+      hosts:
+        vm-db-3:
+          ansible_host: 192.168.1.98
+          ansible_user: debian
+          keyspaces:
+            - name: payment
+              replication_factor: 1
+            - name: notif
+              replication_factor: 1
+      vars:
+        ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
+        ansible_python_interpreter: /usr/bin/python3
+        scylla_cluster_name: "microservices-cluster"
+        scylla_listen_address: "{{ ansible_host }}"
+        scylla_rpc_address: "{{ ansible_host }}"
+        scylla_seeds: "{{ ansible_host }}"
+        scylla_users: "{{ vault_scylla_users }}"
+        scylla_allowed_networks:
+          - 192.168.1.0/24
+    
+    scylladb_dev:
+      hosts:
+        vm-db-3-dev:
+          ansible_host: 192.168.1.98
+          ansible_user: debian
+          keyspaces:
+            - name: payment_dev
+              replication_factor: 1
+            - name: notif_dev
+              replication_factor: 1
+      
+      vars:
+        ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
+        ansible_python_interpreter: /usr/bin/python3
+        scylla_cluster_name: "microservices-cluster"
+        scylla_listen_address: "{{ ansible_host }}"
+        scylla_rpc_address: "{{ ansible_host }}"
+        scylla_seeds: "{{ ansible_host }}"
+        scylla_users: "{{ vault_scylla_users_dev }}"
+        scylla_allowed_networks:
+          - 192.168.1.0/24

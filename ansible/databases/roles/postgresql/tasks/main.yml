@@ -1,0 +1,116 @@
+---
+- name: Install required packages
+  apt:
+    name:
+      - wget
+      - gnupg
+      - lsb-release
+    state: present
+    update_cache: yes
+
+- name: Add PostgreSQL APT repository key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add PostgreSQL APT repository
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+    state: present
+    filename: pgdg
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install PostgreSQL
+  apt:
+    name:
+      - postgresql-{{ postgresql_version }}
+      - postgresql-contrib-{{ postgresql_version }}
+      - python3-psycopg2
+    state: present
+
+- name: Ensure PostgreSQL is started and enabled
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Configure PostgreSQL to listen on all interfaces
+  lineinfile:
+    path: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    regexp: '^#?listen_addresses'
+    line: "listen_addresses = '{{ postgresql_listen_addresses }}'"
+    backup: yes
+  notify: restart postgresql
+
+- name: Configure max connections
+  lineinfile:
+    path: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    regexp: '^#?max_connections'
+    line: "max_connections = {{ postgresql_max_connections }}"
+  notify: restart postgresql
+
+- name: Configure shared buffers
+  lineinfile:
+    path: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    regexp: '^#?shared_buffers'
+    line: "shared_buffers = {{ postgresql_shared_buffers }}"
+  notify: restart postgresql
+
+- name: Configure pg_hba.conf for network access
+  template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: '0640'
+    backup: yes
+  notify: restart postgresql
+
+- name: Flush handlers to restart PostgreSQL
+  meta: flush_handlers
+
+- name: Create databases
+  postgresql_db:
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{ databases }}"
+  become_user: postgres
+
+- name: Create database users
+  postgresql_user:
+    name: "{{ item.owner }}"
+    password: "{{ database_passwords[item.owner] }}"
+    state: present
+  loop: "{{ databases }}"
+  become_user: postgres
+  no_log: true
+
+- name: Grant privileges to users
+  postgresql_privs:
+    database: "{{ item.name }}"
+    roles: "{{ item.owner }}"
+    type: database
+    privs: ALL
+  loop: "{{ databases }}"
+  become_user: postgres
+
+- name: Grant privileges on schema public to users
+  postgresql_privs:
+    database: "{{ item.name }}"
+    roles: "{{ item.owner }}"
+    type: schema
+    objs: public
+    privs: ALL
+  loop: "{{ databases }}"
+  become_user: postgres
+
+- name: Display connection info
+  debug:
+    msg: |
+      Database {{ item.name }} créée
+      User: {{ item.owner }}
+      Connection: psql -h {{ ansible_host }} -U {{ item.owner }} -d {{ item.name }}
+  loop: "{{ databases }}"

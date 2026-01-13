@@ -1,0 +1,17 @@
+---
+postgresql_version: 16
+postgresql_listen_addresses: "*"
+postgresql_port: 5432
+postgresql_max_connections: 100
+postgresql_shared_buffers: 256MB
+postgresql_effective_cache_size: 1GB
+postgresql_work_mem: 4MB
+
+# Sera défini par host dans l'inventaire
+databases: []
+postgresql_allowed_networks: []
+
+# Mots de passe (À SÉCURISER avec ansible-vault!)
+postgresql_admin_password: "{{ vault_postgresql_admin_password }}"
+# database_passwords: "{{ vault_database_passwords if 'postgresql_servers' in group_names else vault_database_passwords_dev }}"
+  

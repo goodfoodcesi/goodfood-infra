@@ -1,0 +1,13 @@
+- hosts: minio_dev
+  become: yes
+  roles:
+    - role: minio
+      vars:
+        minio_env: dev
+
+- hosts: minio_preprod
+  become: yes
+  roles:
+    - role: minio
+      vars:
+        minio_env: preprod

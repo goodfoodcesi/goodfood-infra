@@ -9,3 +9,8 @@ resources:
   - ingress.yaml
   # - argocd-cmd-params-cm.yaml
 
+patches:
+  - target:
+      kind: Service
+      name: argocd-metrics
+    path: argocd-metrics-patch.yaml
