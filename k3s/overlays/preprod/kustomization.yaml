@@ -36,3 +36,8 @@ patches:
   target:
     kind: Deployment
     name: back-office
+
+- path: back-office/patch-ingress.yaml
+  target:
+    kind: Ingress
+    name: back-office-ingress
