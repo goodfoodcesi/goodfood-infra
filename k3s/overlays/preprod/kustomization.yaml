@@ -14,27 +14,25 @@ namespace: preprod
 # - ../../base/rabbitmq
 # - ../../base/auth-api
 # - ../../base/shop-api
-# resources:
+resources:
 # - ./secrets
 # - ../../base/ingresses
 # - ../../base/tyk
-# - ../../base/back-office
+- ../../base/back-office
 
 
-# - name: rg.fr-par.scw.cloud/registry-goodfood/auth-api
-#   newTag: latest
-# images:
-# - name: rg.fr-par.scw.cloud/registry-goodfood/back-office
-#   newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
-#   newTag: sha-d1c96d3
+images:
+- name: rg.fr-par.scw.cloud/registry-goodfood/back-office
+  newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
+  newTag: sha-d1c96d3
 
     
 # - path: auth-api/patch-deployment.yaml
 #   target:
 #     kind: Deployment
 #     name: auth-api
-# patches:
-# - path: back-office/patch-deployment.yaml
-#   target:
-#     kind: Deployment
-#     name: back-office
+patches:
+- path: back-office/patch-deployment.yaml
+  target:
+    kind: Deployment
+    name: back-office
