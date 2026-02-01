@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-api
+  name: authentification-api
 spec:
   revisionHistoryLimit: 2
   replicas: 1
   selector:
     matchLabels:
-      app: auth-api
+      app: authentification-api
   template:
     metadata:
       labels:
-        app: auth-api
+        app: authentification-api
     spec:
       # imagePullSecrets:
       #   - name: scw-registry-secret
       containers:
-        - name: auth-api
-          image: rg.fr-par.scw.cloud/goodfood/auth-api:dev
+        - name: authentification-api
+          image: rg.fr-par.scw.cloud/goodfood/authentification-api:dev
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
