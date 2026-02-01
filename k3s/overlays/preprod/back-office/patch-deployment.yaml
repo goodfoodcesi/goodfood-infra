@@ -6,17 +6,6 @@ spec:
   template:
     spec:
       rules:
-        - host: dev.goodfood.test
-          http:
-            paths:
-              - path: /bo
-                pathType: Prefix
-                backend:
-                  service:
-                    name: back-office
-                    port:
-                      number: 80
-
         - host: preprod-admin.goodfood.ovh
           http:
             paths:
