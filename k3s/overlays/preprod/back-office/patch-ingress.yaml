@@ -7,7 +7,7 @@ spec:
     - host: dev.goodfood.test
       http:
         paths:
-          - path: /bo
+          - path: /
             pathType: Prefix
             backend:
               service:
@@ -18,7 +18,7 @@ spec:
     - host: preprod-admin.goodfood.ovh
       http:
         paths:
-          - path: /bo
+          - path: /
             pathType: Prefix
             backend:
               service:
