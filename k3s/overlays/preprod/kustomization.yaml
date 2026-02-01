@@ -16,7 +16,7 @@ namespace: preprod
 # - ../../base/shop-api
 resources:
 # - ./secrets
-# - ../../base/ingresses
+- ../../base/ingresses
 # - ../../base/tyk
 - ../../base/back-office
 
