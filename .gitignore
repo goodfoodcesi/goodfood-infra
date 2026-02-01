@@ -27,3 +27,4 @@
 
 # Config server
 ./config_k3s
+**/unsealed-secrets

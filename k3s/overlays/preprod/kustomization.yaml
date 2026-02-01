@@ -15,10 +15,11 @@ namespace: preprod
 # - ../../base/auth-api
 # - ../../base/shop-api
 resources:
-# - ./secrets
+- ./secrets
 - ../../base/ingresses
 # - ../../base/tyk
 - ../../base/back-office
+- ../../base/authentification-api
 
 
 images:
@@ -26,11 +27,11 @@ images:
   newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newTag: sha-d1c96d3
 
-    
-# - path: auth-api/patch-deployment.yaml
-#   target:
-#     kind: Deployment
-#     name: auth-api
+- name: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
+  newName: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
+  newTag: sha-3efd05e
+
+
 patches:
 - path: back-office/patch-deployment.yaml
   target:
@@ -41,3 +42,8 @@ patches:
   target:
     kind: Ingress
     name: back-office-ingress
+
+- path: authentification-api/patch-deployment.yaml
+  target:
+    kind: Deployment
+    name: authentification-api

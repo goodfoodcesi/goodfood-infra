@@ -13,14 +13,12 @@ spec:
       labels:
         app: authentification-api
     spec:
-      # imagePullSecrets:
-      #   - name: scw-registry-secret
       containers:
         - name: authentification-api
           image: rg.fr-par.scw.cloud/goodfood/authentification-api:dev
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           env:
             - name: RABBITMQ_URL
               value: amqp://guest:guest@rabbitmq:5672/
