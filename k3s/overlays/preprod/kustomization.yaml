@@ -14,22 +14,24 @@ namespace: preprod
 # - ../../base/rabbitmq
 # - ../../base/auth-api
 # - ../../base/shop-api
+# - ../../base/tyk
 resources:
 - ./secrets
 - ../../base/ingresses
-# - ../../base/tyk
 - ../../base/back-office
 - ../../base/authentification-api
 
 
+
 images:
+- name: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
+  newName: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
+  newTag: sha-a1733a0
 - name: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newTag: sha-d1c96d3
 
-- name: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
-  newName: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
-  newTag: sha-3efd05e
+
 
 
 patches:
@@ -37,12 +39,10 @@ patches:
   target:
     kind: Deployment
     name: back-office
-
 - path: back-office/patch-ingress.yaml
   target:
     kind: Ingress
     name: back-office-ingress
-
 - path: authentification-api/patch-deployment.yaml
   target:
     kind: Deployment
