@@ -24,3 +24,6 @@
 
 # OS
 .DS_Store
+
+# Config server
+./config_k3s

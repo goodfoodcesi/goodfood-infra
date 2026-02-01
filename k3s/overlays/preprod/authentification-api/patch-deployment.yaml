@@ -44,7 +44,7 @@ spec:
       #     value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(POSTGRES_DB)"
 
       containers:
-      - name: auth-api
+      - name: authentification-api
         env:
 
         - name: NAMESPACE

@@ -7,7 +7,7 @@ spec:
   project: default
   
   source:
-    repoURL: https://github.com/collector-microservices/infra
+    repoURL: https://github.com/goodfoodcesi/goodfood-infra
     targetRevision: main
     path: argocd/apps
   
