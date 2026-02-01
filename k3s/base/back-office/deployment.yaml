@@ -22,7 +22,7 @@ spec:
         - name: back-office
           image: rg.fr-par.scw.cloud/registry-goodfood/back-office:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 4000
           resources:
             requests:
               cpu: 100m
