@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: back-office-ingress
 spec:
+  ingressClassName: traefik
   rules:
     - host: dev.goodfood.test
       http:
