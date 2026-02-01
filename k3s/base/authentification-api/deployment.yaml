@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: authentification-api
-          image: rg.fr-par.scw.cloud/goodfood/authentification-api:dev
+          image: rg.fr-par.scw.cloud/registry-goodfood/authentification-api:dev
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
