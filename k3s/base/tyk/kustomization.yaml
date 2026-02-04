@@ -7,3 +7,4 @@ resources:
   - service.yaml
   - configmap.yaml
   - tyk-api-definitions.yaml
+  - redis-deployment.yaml
