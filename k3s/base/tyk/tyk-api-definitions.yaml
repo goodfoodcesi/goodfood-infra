@@ -20,6 +20,7 @@ data:
       },
       "proxy": {
         "listen_path": "/auth/",
+        "target_url": "http://authentification-api.preprod.svc.cluster.local:3000",
         "strip_listen_path": true
       }
     }
