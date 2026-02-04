@@ -19,8 +19,8 @@ data:
         }
       },
       "proxy": {
-        "listen_path": "/api/auth/",
-        "target_url": "http://auth-api",
+        "listen_path": "/auth/",
+        "target_url": "http://authentification-api",
         "strip_listen_path": true
       }
     }

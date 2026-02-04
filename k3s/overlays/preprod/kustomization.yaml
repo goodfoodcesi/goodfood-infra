@@ -20,6 +20,7 @@ resources:
 - ../../base/ingresses
 - ../../base/back-office
 - ../../base/authentification-api
+- ../../base/tyk
 
 
 
