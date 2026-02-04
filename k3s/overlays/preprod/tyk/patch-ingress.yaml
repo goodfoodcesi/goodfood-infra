@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tyk-ingress
+  namespace: preprod
+spec:
+  rules:
+  - host: preprod-api.goodfood.ovh
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tyk-gateway
+            port:
+              number: 8080
+  - host: preprod-api.goodfood.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tyk-gateway
+            port:
+              number: 8080

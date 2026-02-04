@@ -48,3 +48,7 @@ patches:
   target:
     kind: Deployment
     name: authentification-api
+- path: tyk/patch-ingress.yaml
+  target:
+    kind: Ingress
+    name: tyk-ingress

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tyk-ingress
+  namespace: default
+spec:
+  rules:
+  - host: dev-api.goodfood.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tyk-gateway
+            port:
+              number: 8080
