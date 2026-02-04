@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tyk-api-definitions
+  name: tyk-api-definition
   namespace: default
 data:
   auth-api.json: |

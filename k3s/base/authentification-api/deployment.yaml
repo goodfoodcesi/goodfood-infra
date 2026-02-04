@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: authentification-api
 spec:
-  revisionHistoryLimit: 2
+  revisionHistoryLimit: 1
   replicas: 1
   selector:
     matchLabels:
