@@ -1,0 +1,34 @@
+---
+- name: Install Redis
+  apt:
+    name: redis-server
+    state: present
+    update_cache: yes
+
+- name: Configure Redis bind address
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^bind '
+    line: "bind {{ redis_bind_address }}"
+  notify: restart redis
+
+- name: Configure Redis port
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^port '
+    line: "port {{ redis_port }}"
+  notify: restart redis
+
+- name: Configure Redis password
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^#?requirepass '
+    line: "requirepass {{ redis_password }}"
+  when: redis_password | length > 0
+  notify: restart redis
+
+- name: Ensure Redis is running
+  service:
+    name: redis-server
+    state: started
+    enabled: yes

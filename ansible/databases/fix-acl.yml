@@ -1,0 +1,10 @@
+---
+- name: Install ACL
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure ACL is installed
+      apt:
+        name: acl
+        state: present
+        update_cache: yes

@@ -68,45 +68,29 @@ all:
         postgresql_allowed_networks:
           - 192.168.1.0/24
 
-    scylladb_servers:
+    redis_servers:
       hosts:
         vm-db-3:
           ansible_host: 192.168.1.98
           ansible_user: debian
-          keyspaces:
-            - name: payment
-              replication_factor: 1
-            - name: notif
-              replication_factor: 1
       vars:
         ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
         ansible_python_interpreter: /usr/bin/python3
-        scylla_cluster_name: "microservices-cluster"
-        scylla_listen_address: "{{ ansible_host }}"
-        scylla_rpc_address: "{{ ansible_host }}"
-        scylla_seeds: "{{ ansible_host }}"
-        scylla_users: "{{ vault_scylla_users }}"
-        scylla_allowed_networks:
+        redis_bind_address: "0.0.0.0"
+        redis_password: "{{ vault_redis_password | default('') }}"
+        redis_allowed_networks:
           - 192.168.1.0/24
     
-    scylladb_dev:
+    redis_dev:
       hosts:
         vm-db-3-dev:
           ansible_host: 192.168.1.98
           ansible_user: debian
-          keyspaces:
-            - name: payment_dev
-              replication_factor: 1
-            - name: notif_dev
-              replication_factor: 1
       
       vars:
         ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
         ansible_python_interpreter: /usr/bin/python3
-        scylla_cluster_name: "microservices-cluster"
-        scylla_listen_address: "{{ ansible_host }}"
-        scylla_rpc_address: "{{ ansible_host }}"
-        scylla_seeds: "{{ ansible_host }}"
-        scylla_users: "{{ vault_scylla_users_dev }}"
-        scylla_allowed_networks:
+        redis_bind_address: "0.0.0.0"
+        redis_password: "{{ vault_redis_password_dev | default('') }}"
+        redis_allowed_networks:
           - 192.168.1.0/24

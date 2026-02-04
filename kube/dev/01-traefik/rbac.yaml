@@ -13,9 +13,9 @@ rules:
   resources: ["services", "endpoints", "secrets"]
   verbs: ["get", "list", "watch"]
 - apiGroups: ["networking.k8s.io"]
-  resources: ["ingresses", "ingressclasses"]  # ✅ AJOUTE ingressclasses
+  resources: ["ingresses", "ingressclasses"]
   verbs: ["get", "list", "watch"]
-- apiGroups: ["networking.k8s.io"]  # ✅ AJOUTE cette section
+- apiGroups: ["networking.k8s.io"]
   resources: ["ingresses/status"]
   verbs: ["update"]
 ---

@@ -38,4 +38,4 @@ spec:
           name: tyk-gateway-config
       - name: tyk-apps
         configMap:
-          name: tyk-api-auth
+          name: tyk-api-definition
