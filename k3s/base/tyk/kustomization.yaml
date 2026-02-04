@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
-  - configmap.yal.yaml
+  - configmap.yaml
   - api-definitions.yaml
