@@ -26,7 +26,7 @@ resources:
 images:
 - name: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/authentification-api
-  newTag: sha-aae76ed
+  newTag: sha-4eab3b7
 - name: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newTag: sha-d1c96d3
