@@ -8,9 +8,5 @@ spec:
       containers:
       - name: back-office
         env:
-
-        - name: NEXT_PUBLIC_AUTH_BASE_URL
-          value: "http://localhost:3000/auth"
-
-        - name: NEXT_PUBLIC_SHOP_BASE_URL
-          value: "http://localhost:80"
+        - name: NEXT_PUBLIC_API_URL
+          value: "http://preprod-api.goodfood.ovh"
