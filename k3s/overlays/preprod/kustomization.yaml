@@ -58,3 +58,7 @@ patches:
   target:
     kind: Ingress
     name: tyk-ingress
+- path: tyk/patch-configmap.yaml
+  target:
+    kind: ConfigMap
+    name: tyk-gateway-config
