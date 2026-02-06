@@ -6,8 +6,8 @@ metadata:
 data:
   authentification-api.json: |
     {
-      "name": "Auth API",
-      "api_id": "auth-api",
+      "name": "Authentification API",
+      "api_id": "authentification-api",
       "org_id": "default",
       "use_keyless": true,
       "version_data": {
