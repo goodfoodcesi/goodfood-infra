@@ -80,17 +80,3 @@ all:
         redis_password: "{{ vault_redis_password | default('') }}"
         redis_allowed_networks:
           - 192.168.1.0/24
-    
-    redis_dev:
-      hosts:
-        vm-db-3-dev:
-          ansible_host: 192.168.1.98
-          ansible_user: debian
-      
-      vars:
-        ansible_ssh_private_key_file: ~/.ssh/id_rsa_k3s
-        ansible_python_interpreter: /usr/bin/python3
-        redis_bind_address: "0.0.0.0"
-        redis_password: "{{ vault_redis_password_dev | default('') }}"
-        redis_allowed_networks:
-          - 192.168.1.0/24

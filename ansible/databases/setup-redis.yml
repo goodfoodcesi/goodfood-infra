@@ -14,19 +14,3 @@
           Port: {{ redis_port }}
           Bind: {{ redis_bind_address }}
           Connection: redis-cli -h {{ ansible_host }} -p {{ redis_port }}
-
-- name: Setup Redis DEV
-  hosts: redis_dev
-  become: true
-  
-  roles:
-    - redis
-  
-  post_tasks:
-    - name: Display Redis info
-      debug:
-        msg: |
-          Redis DEV installé sur {{ inventory_hostname }}
-          Port: {{ redis_port }}
-          Bind: {{ redis_bind_address }}
-          Connection: redis-cli -h {{ ansible_host }} -p {{ redis_port }}
