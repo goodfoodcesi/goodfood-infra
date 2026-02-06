@@ -10,3 +10,5 @@ spec:
           envFrom:
           - secretRef:
               name: authentification-api-env
+          - secretRef:
+            name: rabbitmq-credentials

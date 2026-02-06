@@ -11,12 +11,12 @@ namespace: preprod
 
 # - ./ingress-api.yaml
 # - ./cert-manager/clusterissuer-letsencrypt.yaml
-# - ../../base/rabbitmq
 # - ../../base/auth-api
 # - ../../base/shop-api
 # - ../../base/tyk
 resources:
 - ./secrets
+- ../../base/rabbitmq
 - ../../base/ingresses
 - ../../base/back-office
 - ../../base/authentification-api
@@ -62,3 +62,7 @@ patches:
   target:
     kind: ConfigMap
     name: tyk-gateway-config
+- path: rabbitmq/patch-deployment.yaml
+  target:
+    kind: Deployment
+    name: rabbitmq
