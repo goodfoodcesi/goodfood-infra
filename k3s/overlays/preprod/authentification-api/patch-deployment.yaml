@@ -4,6 +4,9 @@ metadata:
   name: authentification-api
 spec:
   template:
+    metadata:
+      labels:
+        app: authentification-api
     spec:
       containers:
         - name: authentification-api
