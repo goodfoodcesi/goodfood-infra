@@ -8,8 +8,6 @@ spec:
       containers:
         - name: authentification-api
           envFrom:
-          - configMapRef:
-              name: db-secret-credentials
           - secretRef:
               name: authentification-api-env
           - secretRef:
