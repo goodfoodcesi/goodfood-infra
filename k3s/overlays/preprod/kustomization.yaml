@@ -36,7 +36,7 @@ images:
   newTag: sha-62b3685
 - name: rg.fr-par.scw.cloud/registry-goodfood/shop-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/shop-api
-  newTag: sha-4ba7a8e
+  newTag: sha-885972d
 
 
 patches:
@@ -68,4 +68,3 @@ patches:
   target:
     kind: Deployment
     name: shop-api
-
