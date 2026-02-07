@@ -1,0 +1,16 @@
+---
+- name: Setup MongoDB
+  hosts: mongodb_servers
+  become: true
+  
+  roles:
+    - mongodb
+  
+  post_tasks:
+    - name: Display MongoDB info
+      debug:
+        msg: |
+          MongoDB installé sur {{ inventory_hostname }}
+          Port: {{ mongodb_port }}
+          Bind: {{ mongodb_bind_ip }}
+          Connection: mongodb://{{ mongodb_admin_user }}:PASSWORD@{{ ansible_host }}:{{ mongodb_port }}/admin

@@ -22,6 +22,7 @@ resources:
 - ../../base/authentification-api
 - ../../base/tyk
 - ../../base/shop-api
+- ../../base/order-api
 
 
 images:
@@ -68,3 +69,7 @@ patches:
   target:
     kind: Deployment
     name: shop-api
+- path: order-api/patch-deployment.yaml
+  target:
+    kind: Deployment
+    name: order-api

@@ -1,0 +1,84 @@
+---
+- name: Install gnupg and curl
+  apt:
+    name:
+      - gnupg
+      - curl
+    state: present
+    update_cache: yes
+
+- name: Add MongoDB GPG key
+  apt_key:
+    url: https://www.mongodb.org/static/pgp/server-7.0.asc
+    state: present
+
+- name: Add MongoDB repository for Debian
+  apt_repository:
+    repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/debian {{ ansible_distribution_release }}/mongodb-org/7.0 main"
+    state: present
+    filename: mongodb-org-7.0
+    update_cache: yes
+
+- name: Install MongoDB
+  apt:
+    name:
+      - mongodb-org
+    state: present
+    update_cache: yes
+
+- name: Create MongoDB data directory
+  file:
+    path: "{{ mongodb_database_path }}"
+    state: directory
+    owner: mongodb
+    group: mongodb
+    mode: '0755'
+
+- name: Configure MongoDB bind IP
+  lineinfile:
+    path: /etc/mongod.conf
+    regexp: '^  bindIp:'
+    line: "  bindIp: {{ mongodb_bind_ip }}"
+  notify: restart mongodb
+
+- name: Configure MongoDB port
+  lineinfile:
+    path: /etc/mongod.conf
+    regexp: '^  port:'
+    line: "  port: {{ mongodb_port }}"
+  notify: restart mongodb
+
+- name: Enable MongoDB authentication
+  blockinfile:
+    path: /etc/mongod.conf
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - Security"
+    block: |
+      security:
+        authorization: enabled
+  when: mongodb_admin_password | length > 0
+  notify: restart mongodb
+
+- name: Ensure MongoDB is running
+  service:
+    name: mongod
+    state: started
+    enabled: yes
+
+- name: Wait for MongoDB to start
+  wait_for:
+    port: "{{ mongodb_port }}"
+    delay: 5
+    timeout: 30
+
+- name: Create MongoDB admin user
+  community.mongodb.mongodb_user:
+    login_port: "{{ mongodb_port }}"
+    database: admin
+    name: "{{ mongodb_admin_user }}"
+    password: "{{ mongodb_admin_password }}"
+    roles:
+      - db: admin
+        role: root
+    state: present
+  when: mongodb_admin_password | length > 0
+  ignore_errors: yes

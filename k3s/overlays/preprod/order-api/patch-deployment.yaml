@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-api
+spec:
+  template:
+    metadata:
+      labels:
+        app: order-api
+    spec:
+      containers:
+        - name: order-api
+          envFrom:
+          - secretRef:
+              name: order-api-env
+          - secretRef:
+              name: rabbitmq-credentials

@@ -24,3 +24,45 @@ data:
         "strip_listen_path": true
       }
     }
+  
+  shop-api.json: |
+    {
+      "name": "Shop API",
+      "api_id": "shop-api",
+      "org_id": "default",
+      "use_keyless": true,
+      "version_data": {
+        "not_versioned": true,
+        "versions": {
+          "Default": {
+            "name": "Default"
+          }
+        }
+      },
+      "proxy": {
+        "listen_path": "/shop/",
+        "target_url": "http://shop-api:80",
+        "strip_listen_path": true
+      }
+    }
+  
+  order-api.json: |
+    {
+      "name": "Order API",
+      "api_id": "order-api",
+      "org_id": "default",
+      "use_keyless": true,
+      "version_data": {
+        "not_versioned": true,
+        "versions": {
+          "Default": {
+            "name": "Default"
+          }
+        }
+      },
+      "proxy": {
+        "listen_path": "/order/",
+        "target_url": "http://order-api:80",
+        "strip_listen_path": true
+      }
+    }

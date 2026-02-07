@@ -1,0 +1,8 @@
+---
+mongodb_port: 27017
+mongodb_bind_ip: "0.0.0.0"
+mongodb_database_path: /var/lib/mongodb
+mongodb_log_path: /var/log/mongodb
+mongodb_admin_user: "admin"
+mongodb_admin_password: ""
+mongodb_replica_set_name: ""
