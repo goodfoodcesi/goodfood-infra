@@ -1,0 +1,34 @@
+---
+- name: Setup ScyllaDB
+  hosts: scylladb_servers
+  become: true
+  
+  roles:
+    - scylladb
+  
+  post_tasks:
+    - name: Display ScyllaDB info
+      debug:
+        msg: |
+          ScyllaDB installé sur {{ inventory_hostname }}
+          Cluster: {{ scylla_cluster_name }}
+          Keyspaces créés: {{ keyspaces | map(attribute='name') | join(', ') }}
+          CQL Port: 9042
+          Connection: cqlsh {{ ansible_host }} 9042
+
+- name: Setup ScyllaDB DEV
+  hosts: scylladb_dev
+  become: true
+  
+  roles:
+    - scylladb
+  
+  post_tasks:
+    - name: Display ScyllaDB info
+      debug:
+        msg: |
+          ScyllaDB installé sur {{ inventory_hostname }}
+          Cluster: {{ scylla_cluster_name }}
+          Keyspaces créés: {{ keyspaces | map(attribute='name') | join(', ') }}
+          CQL Port: 9042
+          Connection: cqlsh {{ ansible_host }} 9042

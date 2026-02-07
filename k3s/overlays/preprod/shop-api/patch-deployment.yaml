@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-api
+spec:
+  template:
+    metadata:
+      labels:
+        app: shop-api
+    spec:
+      containers:
+        - name: shop-api
+          envFrom:
+          - secretRef:
+              name: shop-api-env
+          - secretRef:
+              name: rabbitmq-credentials

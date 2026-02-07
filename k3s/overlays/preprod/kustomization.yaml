@@ -21,7 +21,7 @@ resources:
 - ../../base/back-office
 - ../../base/authentification-api
 - ../../base/tyk
-
+- ../../base/shop-api
 
 
 images:
@@ -37,8 +37,6 @@ images:
 - name: rg.fr-par.scw.cloud/registry-goodfood/shop-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/shop-api
   newTag: sha-4ba7a8e
-
-
 
 
 patches:
@@ -66,3 +64,8 @@ patches:
   target:
     kind: Deployment
     name: rabbitmq
+- path: shop-api/patch-deployment.yaml
+  target:
+    kind: Deployment
+    name: shop-api
+
