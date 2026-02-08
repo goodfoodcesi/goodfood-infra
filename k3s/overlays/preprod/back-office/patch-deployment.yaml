@@ -8,27 +8,5 @@ spec:
       containers:
       - name: back-office
         env:
-
-        - name: NEXT_PUBLIC_API_URL
-          value: "http://preprod-api.goodfood.ovh"
-
-        - name: NEXT_PUBLIC_WS_URL
-          value: "ws://preprod-api.goodfood.ovh/order/ws/"
-
-        - name: NNEXT_PUBLIC_ORDER_WS_URL
-          value: "ws://preprod-api.goodfood.ovh/order/ws/"
-
         - name: SHOP_API_URL
-          value: "http://preprod-api.goodfood.ovh/shop"
-
-        - name: NEXT_PUBLIC_SHOP_BASE_URL
-          value: "http://preprod-api.goodfood.ovh/shop"
-
-        - name: NEXT_PUBLIC_ORDER_API_URL
-          value: "http://preprod-api.goodfood.ovh/order"
-
-        - name: NEXT_PUBLIC_AUTH_BASE_URL
-          value: "http://preprod-api.goodfood.ovh/auth"
-
-        - name: NEXT_PUBLIC_SHOP_BASE_URL
           value: "http://preprod-api.goodfood.ovh/shop"
