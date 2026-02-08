@@ -1,0 +1,17 @@
+---
+scylla_version: "5.2"
+scylla_cluster_name: "microservices-cluster"
+scylla_listen_address: "{{ ansible_default_ipv4.address }}"
+scylla_rpc_address: "{{ ansible_default_ipv4.address }}"
+scylla_broadcast_rpc_address: "{{ ansible_default_ipv4.address }}"
+scylla_seeds: "{{ ansible_default_ipv4.address }}"
+scylla_memory: "6G"
+
+keyspaces: []
+scylla_allowed_networks: []
+
+scylla_authenticator: "PasswordAuthenticator"
+scylla_authorizer: "CassandraAuthorizer"
+
+scylla_superuser_password: "{{ vault_scylla_superuser_password }}"
+# scylla_users: "{{ vault_scylla_users }}"
