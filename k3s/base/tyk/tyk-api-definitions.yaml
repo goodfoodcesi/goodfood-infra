@@ -3,7 +3,28 @@ kind: ConfigMap
 metadata:
   name: tyk-api-definition
   namespace: default
-data:
+data:  
+  authentification-api-openapi.json: |
+    {
+      "name": "Authentification API - OpenAPI",
+      "api_id": "authentification-api-openapi",
+      "org_id": "default",
+      "use_keyless": true,
+      "version_data": {
+        "not_versioned": true,
+        "versions": {
+          "Default": {
+            "name": "Default"
+          }
+        }
+      },
+      "proxy": {
+        "listen_path": "/auth/openapi",
+        "target_url": "http://authentification-api:80/openapi",
+        "strip_listen_path": true
+      }
+    }
+  
   authentification-api.json: |
     {
       "name": "Authentification API",
@@ -21,7 +42,7 @@ data:
       "proxy": {
         "listen_path": "/auth/",
         "target_url": "http://authentification-api:80",
-        "strip_listen_path": true
+        "strip_listen_path": false
       }
     }
   
@@ -66,7 +87,7 @@ data:
         "strip_listen_path": true
       }
     }
-    
+
   order-api-ws.json: |
     {
       "name": "Order API WebSocket",
