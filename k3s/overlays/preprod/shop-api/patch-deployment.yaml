@@ -13,6 +13,8 @@ spec:
           env:
             - name: PORT
               value: "80"
+            - name: ALLOWED_ORIGINS
+              value: "http://preprod-admin.goodfood.ovh,https://preprod-admin.goodfood.ovh"
           envFrom:
           - secretRef:
               name: shop-api-env
