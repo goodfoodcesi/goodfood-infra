@@ -10,6 +10,9 @@ spec:
     spec:
       containers:
         - name: shop-api
+          env:
+            - name: PORT
+              value: "80"
           envFrom:
           - secretRef:
               name: shop-api-env
