@@ -20,5 +20,8 @@ data:
       "health_check": {
         "enable_health_checks": true,
         "health_check_value_timeouts": 60
+      },
+      "http_server_options": {
+        "enable_websockets": true
       }
     }
