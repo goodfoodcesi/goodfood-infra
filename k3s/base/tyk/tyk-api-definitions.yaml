@@ -104,7 +104,7 @@ data:
       },
       "proxy": {
         "listen_path": "/order/ws/",
-        "target_url": "http://order-api:8080",
+        "target_url": "http://order-api:8080/ws",
         "strip_listen_path": true
       }
     }
