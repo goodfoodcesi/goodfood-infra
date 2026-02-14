@@ -10,3 +10,5 @@ spec:
         env:
         - name: SHOP_API_URL
           value: "http://preprod-api.goodfood.ovh/shop"
+        - name: NODE_TLS_REJECT_UNAUTHORIZED
+          value: "0"
