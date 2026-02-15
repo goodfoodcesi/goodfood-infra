@@ -31,7 +31,7 @@ images:
   newTag: sha-eb7f02b
 - name: rg.fr-par.scw.cloud/registry-goodfood/back-office
   newName: rg.fr-par.scw.cloud/registry-goodfood/back-office
-  newTag: sha-ca2412e
+  newTag: sha-f5e1143
 - name: rg.fr-par.scw.cloud/registry-goodfood/order-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/order-api
   newTag: sha-c4e8dab
