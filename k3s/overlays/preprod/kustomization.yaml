@@ -34,7 +34,7 @@ images:
   newTag: sha-78e7cd6
 - name: rg.fr-par.scw.cloud/registry-goodfood/order-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/order-api
-  newTag: sha-62b3685
+  newTag: sha-c4e8dab
 - name: rg.fr-par.scw.cloud/registry-goodfood/shop-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/shop-api
   newTag: sha-04b5f2c
