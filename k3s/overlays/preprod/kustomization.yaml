@@ -37,7 +37,7 @@ images:
   newTag: sha-aae8772
 - name: rg.fr-par.scw.cloud/registry-goodfood/shop-api
   newName: rg.fr-par.scw.cloud/registry-goodfood/shop-api
-  newTag: sha-04b5f2c
+  newTag: sha-2464645
 
 
 patches:
